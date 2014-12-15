@@ -1,9 +1,8 @@
-﻿using EasyHook;
+﻿using DllInjection.Services;
+using EasyHook;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 
 namespace DllInjection
@@ -16,51 +15,76 @@ namespace DllInjection
         [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
         public delegate bool SetConsoleTextAttributeDelegate(IntPtr hConsoleOutput, short attributes);
 
-        public MessengerService Messenger { get; set; }
+        public MessengerService Messenger { get; private set; }
+        public LoggingService Logger { get; private set; }
 
         public Infection(RemoteHooking.IContext InContext, string ipcChannelName)
         {
-            Console.WriteLine("[INFECTION] Initialize");
-
             Messenger = RemoteHooking.IpcConnectClient<MessengerService>(ipcChannelName);
 
-            Console.WriteLine("[INFECTION] Infection had been initialized");
+            Logger = new LoggingService();
+
+            Logger.Log(EventLogEntryType.Information, "[INFECTION] Infection had been initialized");
         }
 
         public void Run(RemoteHooking.IContext InContext, string ipcChannelName)
         {
-            Console.WriteLine("[INFECTION] Hooking SetConsoleTextAttribute function (kernel32.dll)");
-
-            var myHook = LocalHook.Create(
-                LocalHook.GetProcAddress("kernel32.dll", "SetConsoleTextAttribute"),
-                new SetConsoleTextAttributeDelegate(Hooked),
-                this);
-
-            Console.WriteLine("[INFECTION] Setting an exclusive ACL");
-
-            myHook.ThreadACL.SetExclusiveACL(new int[1] { 0 });
-
-            Console.WriteLine("[INFECTION] Running");
-
-            while (Messenger.Ping(RemoteHooking.GetCurrentProcessId()))
+            try
             {
-                Thread.Sleep(1000);
+                Logger.Log(EventLogEntryType.Information, "[INFECTION] Hooking SetConsoleTextAttribute function (kernel32.dll)");
+
+                var myHook = LocalHook.Create(
+                    LocalHook.GetProcAddress("kernel32.dll", "SetConsoleTextAttribute"),
+                    new SetConsoleTextAttributeDelegate(Hooked),
+                    this);
+
+                Logger.Log(EventLogEntryType.Information, "[INFECTION] Setting an exclusive ACL");
+
+                myHook.ThreadACL.SetExclusiveACL(new int[1] { 0 });
+            }
+            catch (Exception e)
+            {
+                Logger.Log(EventLogEntryType.Error, "[INFECTION] Hooking failed: " + e.ToString());
             }
 
-            Console.WriteLine("[INFECTION] Stoping");
+            try
+            {
+                Logger.Log(EventLogEntryType.Information, "[INFECTION] Running");
+
+                while (Messenger.Ping(RemoteHooking.GetCurrentProcessId()))
+                {
+                    Thread.Sleep(1000);
+                }
+
+                Logger.Log(EventLogEntryType.Information, "[INFECTION] Stoppped");
+            }
+            catch (Exception e)
+            {
+                Logger.Log(EventLogEntryType.Error, "[INFECTION] An error occured during execution: " + e.ToString());
+            }
         }
 
         public static bool Hooked(IntPtr hConsoleOutput, short attributes)
         {
-            Console.WriteLine("[INFECTION] Hook had been triggered");
-
             Infection This = (Infection)HookRuntimeInfo.Callback;
 
-            This.Messenger.OnHook();
+            try
+            {
+                This.Logger.Log(EventLogEntryType.Information, "[INFECTION] Hook had been triggered");
 
-            Console.WriteLine("[INFECTION] Calling native implementation of the function");
+                This.Messenger.OnHook();
 
-            return SetConsoleTextAttribute(hConsoleOutput, attributes);
+                This.Logger.Log(EventLogEntryType.Information, "[INFECTION] Calling native implementation of the function");
+
+                return SetConsoleTextAttribute(hConsoleOutput, attributes);
+            }
+            catch (Exception e)
+            {
+                if (This != null)
+                    This.Logger.Log(EventLogEntryType.Error, "[INFECTION] An error occured during execution: " + e.ToString());
+
+                return false;
+            }
         }
     }
 }

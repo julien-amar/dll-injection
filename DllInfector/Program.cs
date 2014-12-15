@@ -1,4 +1,4 @@
-﻿using DllInfection;
+﻿using DllInjection;
 using EasyHook;
 using System;
 using System.Diagnostics;
@@ -34,9 +34,8 @@ namespace DllInfector
             var startInfo = new W32Native.STARTUPINFO();
             var processInfo = new W32Native.PROCESS_INFORMATION();
 
-            W32Native.CreateProcess(
-                Environment.CurrentDirectory + @"\TargetManagedProcess.exe",
-                //@"C:\Users\JULIEN\Documents\Visual Studio 2013\Projects\HookRemoteProcess\Debug\HookRemoteProcess.exe",
+            var b = W32Native.CreateProcess(
+                Environment.CurrentDirectory + @"\TargetUnManagedProcess.exe",
                 null,
                 IntPtr.Zero,
                 IntPtr.Zero,
@@ -56,8 +55,8 @@ namespace DllInfector
         {
             RemoteHooking.Inject(
                 (int)pi.dwProcessId,
-                Environment.CurrentDirectory + @"\DllInfection.dll", // 32 bits
-                Environment.CurrentDirectory + @"\DllInfection.dll", // 64 bits
+                Environment.CurrentDirectory + @"\DllInjection.dll", // 32 bits
+                Environment.CurrentDirectory + @"\DllInjection.dll", // 64 bits
                 ChannelName);
         }
     }

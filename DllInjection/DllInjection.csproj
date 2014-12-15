@@ -7,9 +7,9 @@
     <ProjectGuid>{3BEBFD5F-B581-4BB2-8EF0-A1FB09118C7D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DllInfection</RootNamespace>
-    <AssemblyName>DllInfection</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>DllInjection</RootNamespace>
+    <AssemblyName>DllInjection</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -71,7 +71,7 @@
   <ItemGroup>
     <Reference Include="EasyHook, Version=2.7.5292.0, Culture=neutral, PublicKeyToken=4b580fca19d0b0c5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Easyhook\NetFX3.5\EasyHook.dll</HintPath>
+      <HintPath>..\Easyhook\NetFX4.0\EasyHook.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

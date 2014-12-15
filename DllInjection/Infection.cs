@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 
-namespace DllInfection
+namespace DllInjection
 {
     public class Infection : IEntryPoint
     {

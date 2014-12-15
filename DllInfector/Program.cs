@@ -35,7 +35,7 @@ namespace DllInfector
             var processInfo = new W32Native.PROCESS_INFORMATION();
 
             W32Native.CreateProcess(
-                Environment.CurrentDirectory + @"\TargetUnManagedProcess.exe",
+                Environment.CurrentDirectory + @"\TargetManagedProcess.exe",
                 //@"C:\Users\JULIEN\Documents\Visual Studio 2013\Projects\HookRemoteProcess\Debug\HookRemoteProcess.exe",
                 null,
                 IntPtr.Zero,

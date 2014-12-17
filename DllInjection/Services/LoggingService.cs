@@ -21,12 +21,18 @@ namespace DllInjection.Services
 
         public void Log(EventLogEntryType type, string message)
         {
-            EventLog appLog = new EventLog()
+            try
             {
-                Source = SOURCE,
-            };
+                EventLog appLog = new EventLog()
+                {
+                    Source = SOURCE,
+                };
 
-            appLog.WriteEntry(message, type);
+                appLog.WriteEntry(message, type);
+            }
+            catch
+            {
+            }
         }
     }
 }

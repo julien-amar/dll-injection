@@ -82,7 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infection.cs" />
+    <Compile Include="Injection.cs" />
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\MessengerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace DllInjection
 {
-    public class Infection : IEntryPoint
+    public class Injection : IEntryPoint
     {
         [DllImport("kernel32.dll", CallingConvention = CallingConvention.Winapi)]
         public static extern bool SetConsoleTextAttribute(IntPtr hConsoleOutput, short attributes);
@@ -18,7 +18,7 @@ namespace DllInjection
         public MessengerService Messenger { get; private set; }
         public LoggingService Logger { get; private set; }
 
-        public Infection(RemoteHooking.IContext InContext, string ipcChannelName)
+        public Injection(RemoteHooking.IContext InContext, string ipcChannelName)
         {
             Messenger = RemoteHooking.IpcConnectClient<MessengerService>(ipcChannelName);
 
@@ -66,7 +66,7 @@ namespace DllInjection
 
         public static bool Hooked(IntPtr hConsoleOutput, short attributes)
         {
-            Infection This = (Infection)HookRuntimeInfo.Callback;
+            Injection This = (Injection)HookRuntimeInfo.Callback;
 
             try
             {

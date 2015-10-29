@@ -49,6 +49,8 @@ namespace DllInjection
 
             try
             {
+                RemoteHooking.WakeUpProcess();
+
                 Logger.Log(EventLogEntryType.Information, "[INFECTION] Running");
 
                 while (Messenger.Ping(RemoteHooking.GetCurrentProcessId()))

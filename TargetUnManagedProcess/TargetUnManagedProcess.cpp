@@ -14,9 +14,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	cout << "Process ID : " << GetCurrentProcessId() << endl;
-
-	Sleep(1000);
+	cout << "Target UnManaged Process ID : " << GetCurrentProcessId() << endl;
 
 	for (int i = 0; true; ++i)
 	{

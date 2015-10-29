@@ -1,10 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DllInfector", "DllInfector\DllInfector.csproj", "{22AAA8D0-F01E-45A2-99E5-C807870113A0}"
 	ProjectSection(ProjectDependencies) = postProject
+		{BAC86E16-AA53-4130-BA73-6BF4C1D27132} = {BAC86E16-AA53-4130-BA73-6BF4C1D27132}
 		{CC868AF9-D0DA-4C7F-B560-6367CDD53033} = {CC868AF9-D0DA-4C7F-B560-6367CDD53033}
 	EndProjectSection
 EndProject

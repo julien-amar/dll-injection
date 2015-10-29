@@ -12,9 +12,7 @@ namespace TargetManagedProcess
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Process ID : {0}", Process.GetCurrentProcess().Id);
-
-            Thread.Sleep(1000);
+            Console.WriteLine("Target Managed Process ID : {0}", Process.GetCurrentProcess().Id);
 
             for (int i = 0; true; ++i)
             {

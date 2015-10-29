@@ -12,11 +12,9 @@ namespace DllInfector
         {
             string ChannelName = CreateIpcServer();
 
-            var pi = StartProcess();
+            var processId = CreateProcessAndHook(ChannelName);
 
-            Hook(ChannelName, pi);
-
-            Process.GetProcessById((int)pi.dwProcessId)
+            Process.GetProcessById(processId)
                 .WaitForExit();
         }
 
@@ -29,35 +27,21 @@ namespace DllInfector
             return ChannelName;
         }
 
-        private static W32Native.PROCESS_INFORMATION StartProcess()
+        private static int CreateProcessAndHook(string channelName)
         {
-            var startInfo = new W32Native.STARTUPINFO();
-            var processInfo = new W32Native.PROCESS_INFORMATION();
+            int processId;
 
-            var b = W32Native.CreateProcess(
+            RemoteHooking.CreateAndInject(
                 Environment.CurrentDirectory + @"\TargetUnManagedProcess.exe",
-                null,
-                IntPtr.Zero,
-                IntPtr.Zero,
-                false,
-                0x00000004, // CREATE_SUSPENDED
-                IntPtr.Zero,
-                null,
-                ref startInfo,
-                out processInfo);
-
-            W32Native.ResumeThread(processInfo.hThread);
-
-            return processInfo;
-        }
-        
-        private static void Hook(string ChannelName, W32Native.PROCESS_INFORMATION pi)
-        {
-            RemoteHooking.Inject(
-                (int)pi.dwProcessId,
+                "",
+                0,
+                InjectionOptions.DoNotRequireStrongName,
                 Environment.CurrentDirectory + @"\DllInjection.dll", // 32 bits
                 Environment.CurrentDirectory + @"\DllInjection.dll", // 64 bits
-                ChannelName);
+                out processId,
+                channelName);
+
+            return processId;
         }
     }
 }

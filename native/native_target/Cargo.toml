@@ -1,0 +1,8 @@
+[package]
+name = "native_target"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "native_target"
+path = "src/main.rs"

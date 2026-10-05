@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Injector/Injector.csproj" />
+    <Project Path="src/ManagedPayload/ManagedPayload.csproj" />
+    <Project Path="src/ManagedTarget/ManagedTarget.csproj" />
+  </Folder>
+</Solution>

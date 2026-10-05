@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>ManagedPayload</AssemblyName>
+
+    <!-- Publish as a self-contained NATIVE DLL via NativeAOT.
+         The result exports plain C functions and carries no CLR dependency,
+         so it loads like any native DLL and never conflicts with a managed
+         target's own .NET runtime. Build with: dotnet publish -c Release -->
+    <PublishAot>true</PublishAot>
+    <NativeLib>Shared</NativeLib>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+</Project>

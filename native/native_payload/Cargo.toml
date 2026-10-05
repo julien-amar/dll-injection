@@ -1,0 +1,14 @@
+[package]
+name = "native_payload"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "native_payload"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+# A panic must never unwind across the FFI boundary (that is undefined behaviour).
+# Aborting is the safe choice for an injected payload.
+[profile.release]
+panic = "abort"
